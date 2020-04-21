@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/0x72_DungeonTilesetII_v1.png" type="Texture" id=1]
+[ext_resource path="res://characters/Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://characters/Monster.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5.86113, 8.15308 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 43.2529
+
+[node name="Monster" instance=ExtResource( 2 )]
+scale = Vector2( 4, 4 )
+script = ExtResource( 3 )
+speed = 150
+skill_cooldown = 0.5
+health = 100
+detect_radius = 70
+
+[node name="Body" parent="." index="0"]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 371.45, 175.184, 12.5499, 16.8159 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( -1.09213, -0.341167 )
+shape = SubResource( 1 )
+
+[node name="DetectRadius" type="Area2D" parent="." index="4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius" index="0"]
+shape = SubResource( 2 )
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_DetectRadius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_DetectRadius_body_exited"]
